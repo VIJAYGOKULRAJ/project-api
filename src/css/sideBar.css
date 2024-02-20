@@ -1,0 +1,5 @@
+.accordion{
+    --bs-accordion-bg: none !important;
+    --bs-accordion-border-color: none !important;
+    --bs-accordion-btn-focus-box-shadow : none !important;
+}

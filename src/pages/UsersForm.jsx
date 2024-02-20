@@ -1,0 +1,27 @@
+import { useEffect, useState } from "react"
+import TableList from "../components/TableList"
+import axios from 'axios';
+
+
+
+const UsersForm = ({userData , onSelectedUserId }) => {
+  const handleShowIdFromTableList = (id , showEditModel) => {
+    onSelectedUserId(id , showEditModel);
+};
+    const column = [
+        {heading : 'Edit' , type : 'icon' , iconType : 'solar:pen-2-bold-duotone'},
+        {heading : 'Name' , value : 'name' },
+        {heading : 'Email' , value : 'email'},
+        {heading : 'Gender' , value : 'gender'},
+        {heading: 'Status', value: 'status', type: 'dropdown', options: ['Active','Inactive'] },
+        {heading : 'Delete' , type : 'icon' , iconType : 'material-symbols:delete-outline'},
+
+    ]
+  return (
+    <div>
+<TableList record={userData} column={column} onShowId={(id) => handleShowIdFromTableList(id, true)} />
+    </div>
+  )
+}
+
+export default UsersForm
