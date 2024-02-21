@@ -4,10 +4,8 @@ import axios from 'axios';
 
 
 
-const UsersForm = ({userData , onSelectedUserId }) => {
-  const handleShowIdFromTableList = (id , showEditModel) => {
-    onSelectedUserId(id , showEditModel);
-};
+const UsersForm = ({userData  }) => {
+  
     const column = [
         {heading : 'Edit' , type : 'icon' , iconType : 'solar:pen-2-bold-duotone'},
         {heading : 'Name' , value : 'name' },
@@ -19,7 +17,7 @@ const UsersForm = ({userData , onSelectedUserId }) => {
     ]
   return (
     <div>
-<TableList record={userData} column={column} onShowId={(id) => handleShowIdFromTableList(id, true)} />
+<TableList record={userData} column={column} />
     </div>
   )
 }

@@ -3,12 +3,9 @@ import UsersForm from "../pages/UsersForm"
 import ModelPopup from "./ModelPopup";
 
 
-const MainContent = ({userData , fetchData}) => {
+const MainContent = ({userData , fetchData , getUserId}) => {
   const [modalShow, setModalShow] = useState(false);
-  const handleSelectedUserId = (id , showEditModel) => {
-    console.log(`Selected User ID in MainContent: ${id , showEditModel}`);
-    setModalShow(showEditModel)
-};
+  
 
   return (
     <div>
@@ -22,8 +19,9 @@ const MainContent = ({userData , fetchData}) => {
       </div>
    
       <div className="p-3">
-        <UsersForm userData = {userData} onSelectedUserId={(id) =>handleSelectedUserId(id , true)}/>
+        <UsersForm userData = {userData}/>
         <ModelPopup
+        getUserId = {getUserId}
         show={modalShow}
         onHide={() => setModalShow(false)}
         userData = {userData}

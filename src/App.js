@@ -1,4 +1,4 @@
-import { Main } from "./Main";
+import {Main}  from "./Main";
 import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   return (

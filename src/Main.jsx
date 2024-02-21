@@ -2,38 +2,46 @@ import { useEffect, useState } from "react";
 import MainContent from "./components/MainContent";
 import SideBar from "./components/SideBar";
 import axios from "axios";
+import {userContext} from './ContextFile/Context'
+
 
 export const Main = () => {
   const [users, setUsers] = useState([]);
+  const [getById, setgetById] = useState(null);
+console.log(getById, " --------------------------------")
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://gorest.co.in/public/v2/users', {
-        'headers': {
-          'Authorization': 'Bearer ' + '032c91f0b1744e89f2f312238d52c581c0553d923d86e8272ec2999967525691'
-        }});
-      
+      const response = await axios.get("https://gorest.co.in/public/v2/users", {
+        headers: {
+          Authorization:
+            "Bearer " +
+            "032c91f0b1744e89f2f312238d52c581c0553d923d86e8272ec2999967525691",
+        },
+      });
+
       setUsers(response.data);
-      
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
-  
+
   useEffect(() => {
     fetchData();
   }, []);
   return (
     <>
-      <div className="container-fluid ">
-        <div className="row ">
-          <div className="col-lg-2 p-0 ">
-            <SideBar userData={users} />
-          </div>
-          <div className="col-lg-10 p-0">
-            <MainContent userData={users} fetchData = {fetchData} />
+      <userContext.Provider value={{setgetById}}>
+        <div className="container-fluid ">
+          <div className="row ">
+            <div className="col-lg-2 p-0 ">
+              <SideBar userData={users} />
+            </div>
+            <div className="col-lg-10 p-0">
+              <MainContent userData={users} fetchData={fetchData} getUserId = {getById}/>
+            </div>
           </div>
         </div>
-      </div>
+      </userContext.Provider>
     </>
   );
 };
