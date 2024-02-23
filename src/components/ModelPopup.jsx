@@ -1,16 +1,19 @@
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import { useState } from "react";
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import { useState, useContext } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import axios from "axios";
+import { userContext } from "../ContextFile/Context";
 const validationSchema = Yup.object({
-  name: Yup.string().required('Required'),
-  email: Yup.string().email('Invalid email address').required('Required'),
-  gender: Yup.string().required('Required'),
-  status: Yup.string().required('Required'),
+  name: Yup.string().required("Required"),
+  email: Yup.string().email("Invalid email address").required("Required"),
+  gender: Yup.string().required("Required"),
+  status: Yup.string().required("Required"),
 });
 const ModelPopup = (props) => {
+  const { getById, setgetById } = useContext(userContext);
+
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -20,12 +23,12 @@ const ModelPopup = (props) => {
 
   const formik = useFormik({
     initialValues: {
-      name: '',
-      email: '',
-      gender: 'Male',
-      status: 'InActive',
+      name: "",
+      email: "",
+      gender: "Male",
+      status: "InActive",
     },
-    onSubmit: values => {
+    onSubmit: (values) => {
       handleSubmit(values);
     },
     validationSchema: validationSchema,
@@ -37,15 +40,22 @@ const ModelPopup = (props) => {
   };
 
   const handleSubmit = (values) => {
-    const token = "032c91f0b1744e89f2f312238d52c581c0553d923d86e8272ec2999967525691";
-    
+    const token =
+      "032c91f0b1744e89f2f312238d52c581c0553d923d86e8272ec2999967525691";
+
     axios
       .request({
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        method: "POST",
-        url: "https://gorest.co.in/public/v2/users",
+        method: getById.id
+          ?getById.openModel
+            ? "PUT"
+            : "POST"
+          : undefined,
+        url: getById.id
+          ? `https://gorest.co.in/public/v2/users/${getById.id}`
+          : "https://gorest.co.in/public/v2/users",
         data: values,
       })
       .then((response) => {
@@ -76,7 +86,9 @@ const ModelPopup = (props) => {
               </label>
               <input
                 type="text"
-                className={`form-control ${formik.touched.name && formik.errors.name ? 'is-invalid' : ''}`}
+                className={`form-control ${
+                  formik.touched.name && formik.errors.name ? "is-invalid" : ""
+                }`}
                 id="name"
                 name="name"
                 placeholder="Enter your name"
@@ -94,7 +106,11 @@ const ModelPopup = (props) => {
               </label>
               <input
                 type="email"
-                className={`form-control ${formik.touched.email && formik.errors.email ? 'is-invalid' : ''}`}
+                className={`form-control ${
+                  formik.touched.email && formik.errors.email
+                    ? "is-invalid"
+                    : ""
+                }`}
                 id="email"
                 name="email"
                 placeholder="Enter your email"

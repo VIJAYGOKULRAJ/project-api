@@ -1,9 +1,9 @@
 import { useState, useContext } from "react";
-import { Icon } from '@iconify/react';
+import { Icon } from "@iconify/react";
 import { userContext } from "../ContextFile/Context";
-
+import { DeleteApi } from "../Axios/ApiCall";
 const TableList = ({ record, column }) => {
-  const { setgetById } = useContext(userContext);
+  const { getById, setgetById, setModalShow } = useContext(userContext);
 
   return (
     <>
@@ -12,7 +12,9 @@ const TableList = ({ record, column }) => {
           <table className="table table-striped table-light">
             <thead>
               <tr className="text-center">
-                {column.map((item) => <th key={item.heading}>{item.heading}</th>)}
+                {column.map((item) => (
+                  <th key={item.heading}>{item.heading}</th>
+                ))}
               </tr>
             </thead>
             <tbody>
@@ -23,7 +25,6 @@ const TableList = ({ record, column }) => {
                     item={item}
                     index={index}
                     column={column}
-                    setgetById={setgetById} 
                   />
                 ))
               ) : (
@@ -41,24 +42,40 @@ const TableList = ({ record, column }) => {
   );
 };
 
-const TableRowContent = ({ item, column, index, setgetById }) => {
+const TableRowContent = ({
+  item,
+  column,
+  index,
+}) => {
+  const { getById, setgetById, setModalShow } = useContext(userContext);
   const [value, setValue] = useState();
 
-  const handleChange = (e) => {
-    setValue(e.target.value);
-  };
+  // const handleChange = (e) => {
+  //   setValue(e.target.value);
+  // };
 
-  const handleGetId = (id) => {
-    setgetById(id);
+  const handleGetId = async(id, showModel) => {
+    console.log(id,showModel,"-------------")
+    await setgetById({ ...getById, id: id , [showModel ? 'openModel' : 'delete']: showModel});
+    setValue(id)
+    console.log(value,"value------")
+    setModalShow(showModel)
+    console.log(getById,"-------------")
+    //DeleteApi(id)
+ 
   };
 
   return (
     <tr>
       {column.map((colItem) => {
-        if (colItem.type === 'dropdown') {
+        if (colItem.type === "dropdown") {
           return (
             <td key={colItem.heading} className="text-center">
-              <select className="dropdown-btn" onChange={handleChange} value={value}>
+              <select
+                className="dropdown-btn"
+                //onChange={handleChange}
+                value={item.value}
+              >
                 {colItem.options.map((option) => (
                   <option key={option} value={option}>
                     {option}
@@ -67,16 +84,21 @@ const TableRowContent = ({ item, column, index, setgetById }) => {
               </select>
             </td>
           );
-        } else if (colItem.type === 'icon') {
+        } else if (colItem.type === "icon") {
           return (
             <td key={colItem.heading} className="text-center">
-              <button type="button" onClick={() => handleGetId(item.id)} className="border-0 bg-transparent" id={item.id}>
+              <button
+                type="button"
+                onClick={() => handleGetId(item.id, colItem.btnType === 'edit' )}
+                className="border-0 bg-transparent"
+                id={item.id}
+              >
                 <Icon icon={colItem.iconType} />
               </button>
             </td>
           );
         } else {
-          return colItem.value === '' ? (
+          return colItem.value === "" ? (
             <td key={colItem.heading} className="text-center">
               {index + 1}
             </td>

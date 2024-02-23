@@ -32,9 +32,9 @@ const SideBar = () => {
           <span className="text-dark fw-bold">Filter</span>
           <span className="fw-bold text-info">Favorite</span>
         </div>
-        <hr className="" />
+        <hr  />
         <div>
-          {links.map((content, index) => (
+          {links&& links.length > 0?links.map((content, index) => (
             <div className="accordion" id={`accordion-${index}`} key={index}>
               <div className="accordion-item">
                 <h2 className="accordion-header">
@@ -77,7 +77,7 @@ const SideBar = () => {
                 </div>
               </div>
             </div>
-          ))}
+          )) : <></>}
         </div>
       </div>
     </div>

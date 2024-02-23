@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import UsersForm from "../pages/UsersForm"
 import ModelPopup from "./ModelPopup";
+import { userContext } from "../ContextFile/Context";
 
 
-const MainContent = ({userData , fetchData , getUserId}) => {
-  const [modalShow, setModalShow] = useState(false);
+const MainContent = ({userData , fetchData }) => {
+  const { getById , setgetById , modalShow, setModalShow  } = useContext(userContext);
   
 
   return (
@@ -21,7 +22,6 @@ const MainContent = ({userData , fetchData , getUserId}) => {
       <div className="p-3">
         <UsersForm userData = {userData}/>
         <ModelPopup
-        getUserId = {getUserId}
         show={modalShow}
         onHide={() => setModalShow(false)}
         userData = {userData}
