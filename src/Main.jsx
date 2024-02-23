@@ -7,8 +7,11 @@ import {userContext} from './ContextFile/Context'
 
 export const Main = () => {
   const [users, setUsers] = useState([]);
-  const [getById, setgetById] = useState(null);
-console.log(getById, " --------------------------------")
+  const [modalShow, setModalShow] = useState(false);
+  const [getById, setgetById] = useState({
+    id : '' , delete :'' , openModel : ''
+  });
+ 
   const fetchData = async () => {
     try {
       const response = await axios.get("https://gorest.co.in/public/v2/users", {
@@ -30,14 +33,14 @@ console.log(getById, " --------------------------------")
   }, []);
   return (
     <>
-      <userContext.Provider value={{setgetById}}>
+      <userContext.Provider value={{getById , setgetById ,modalShow, setModalShow }}>
         <div className="container-fluid ">
           <div className="row ">
             <div className="col-lg-2 p-0 ">
               <SideBar userData={users} />
             </div>
             <div className="col-lg-10 p-0">
-              <MainContent userData={users} fetchData={fetchData} getUserId = {getById}/>
+              <MainContent userData={users} fetchData={fetchData} />
             </div>
           </div>
         </div>
