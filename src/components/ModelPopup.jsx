@@ -5,21 +5,28 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { userContext } from "../ContextFile/Context";
+import { postApi } from "../Axios/ApiCall";
+
 const validationSchema = Yup.object({
   name: Yup.string().required("Required"),
   email: Yup.string().email("Invalid email address").required("Required"),
   gender: Yup.string().required("Required"),
   status: Yup.string().required("Required"),
 });
-const ModelPopup = (props) => {
-  const { getById, setgetById } = useContext(userContext);
 
+const ModelPopup = (props) => {
+  const { setgetById } = useContext(userContext);
   const [data, setData] = useState({
     name: "",
     email: "",
     gender: "Male",
     status: "InActive",
   });
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setData({ ...data, [e.target.name]: value });
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -28,45 +35,22 @@ const ModelPopup = (props) => {
       gender: "Male",
       status: "InActive",
     },
-    onSubmit: (values) => {
-      handleSubmit(values);
-    },
     validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      try {
+        const response = await props.handlePost(values);
+        props.onHide();
+      } catch (error) {
+        console.error("Error adding user:", error);
+      }
+    },
   });
 
-  const handleChange = (e) => {
-    const value = e.target.value;
-    setData({ ...data, [e.target.name]: value });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    formik.handleSubmit();
+    console.log("Form Values:", formik.values);
   };
-
-  const handleSubmit = (values) => {
-    const token =
-      "032c91f0b1744e89f2f312238d52c581c0553d923d86e8272ec2999967525691";
-
-    axios
-      .request({
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        method: getById.id
-          ?getById.openModel
-            ? "PUT"
-            : "POST"
-          : undefined,
-        url: getById.id
-          ? `https://gorest.co.in/public/v2/users/${getById.id}`
-          : "https://gorest.co.in/public/v2/users",
-        data: values,
-      })
-      .then((response) => {
-        props.fetchData();
-        props.onHide();
-      })
-      .catch((error) => {
-        console.error("Error adding user:", error);
-      });
-  };
-
   return (
     <div>
       <Modal
@@ -75,11 +59,11 @@ const ModelPopup = (props) => {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton className="p-4">
-          <Modal.Title id="contained-modal-title-vcenter">Add User</Modal.Title>
+        <Modal.Header closeButton className="p-4" >
+          <Modal.Title id="contained-modal-title-vcenter" >Add User</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form onSubmit={formik.handleSubmit} className="p-3">
+          <form  onSubmit={handleSubmit} className="p-3">
             <div className="mb-3">
               <label htmlFor="name" className="form-label">
                 Name:
