@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import MainContent from "./components/MainContent";
 import SideBar from "./components/SideBar";
-import axios from "axios";
+import { deleteApi, fetchData, postApi} from "./Axios/ApiCall";
 import {userContext} from './ContextFile/Context'
 
 
@@ -11,25 +11,42 @@ export const Main = () => {
   const [getById, setgetById] = useState({
     id : '' , delete :'' , openModel : ''
   });
- 
-  const fetchData = async () => {
+  const fetchUserData = async () => {
     try {
-      const response = await axios.get("https://gorest.co.in/public/v2/users", {
-        headers: {
-          Authorization:
-            "Bearer " +
-            "032c91f0b1744e89f2f312238d52c581c0553d923d86e8272ec2999967525691",
-        },
-      });
-
-      setUsers(response.data);
+      const userData = await fetchData();
+      setUsers(userData);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error in fetchUserData:", error);
+    }
+  };
+  const handleDelete = async (userId) => {
+    try {
+      await deleteApi(userId);
+      fetchUserData();
+    } catch (error) {
+      console.error("Error handling delete operation:", error);
     }
   };
 
+  //post api
+  const handlePost = async (postData) => {
+    try {
+      const response = await postApi(postData);
+      fetchUserData();
+    } catch (error) {
+      console.error("Error adding user:", error);
+    }
+  };
+  
   useEffect(() => {
-    fetchData();
+    setgetById({
+      id: '',
+      delete: '',
+      openModel: ''
+    });
+  }, [users]);
+  useEffect(() => {
+    fetchUserData();
   }, []);
   return (
     <>
@@ -40,7 +57,7 @@ export const Main = () => {
               <SideBar userData={users} />
             </div>
             <div className="col-lg-10 p-0">
-              <MainContent userData={users} fetchData={fetchData} />
+              <MainContent userData={users} fetchData={fetchUserData}  handleDelete={handleDelete} handlePost = {handlePost} />
             </div>
           </div>
         </div>

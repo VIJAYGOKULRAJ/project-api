@@ -1,9 +1,17 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import { userContext } from "../ContextFile/Context";
-import { DeleteApi } from "../Axios/ApiCall";
-const TableList = ({ record, column }) => {
-  const { getById, setgetById, setModalShow } = useContext(userContext);
+
+
+const TableList = ({ record, column ,  handleDelete}) => {
+  const { getById, setgetById,  setModalShow } = useContext(userContext);
+  const setValueInParent = (id , modelShow) => {
+    setgetById({...getById , id : id , [modelShow ? 'openModel' : 'delete'] : modelShow})
+    setModalShow(modelShow)
+  };
+  useEffect(()=>{ 
+    getById.id && getById.delete === false && handleDelete(getById.id)
+  },[getById])
 
   return (
     <>
@@ -25,6 +33,7 @@ const TableList = ({ record, column }) => {
                     item={item}
                     index={index}
                     column={column}
+                    setValueInParent={setValueInParent} 
                   />
                 ))
               ) : (
@@ -46,25 +55,17 @@ const TableRowContent = ({
   item,
   column,
   index,
+  setValueInParent, 
 }) => {
   const { getById, setgetById, setModalShow } = useContext(userContext);
-  const [value, setValue] = useState();
 
-  // const handleChange = (e) => {
-  //   setValue(e.target.value);
-  // };
-
-  const handleGetId = async(id, showModel) => {
-    console.log(id,showModel,"-------------")
-    await setgetById({ ...getById, id: id , [showModel ? 'openModel' : 'delete']: showModel});
-    setValue(id)
-    console.log(value,"value------")
-    setModalShow(showModel)
-    console.log(getById,"-------------")
-    //DeleteApi(id)
- 
+  const handleGetId =  (id, showModel) => {
+    setValueInParent(id , showModel); 
   };
-
+  const [value, setValue] = useState();
+ const handleChange = (e) => {
+    setValue(e.target.value);
+  };
   return (
     <tr>
       {column.map((colItem) => {
@@ -73,8 +74,8 @@ const TableRowContent = ({
             <td key={colItem.heading} className="text-center">
               <select
                 className="dropdown-btn"
-                //onChange={handleChange}
                 value={item.value}
+                onChange={handleChange}
               >
                 {colItem.options.map((option) => (
                   <option key={option} value={option}>

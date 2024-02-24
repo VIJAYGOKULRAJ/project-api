@@ -4,7 +4,7 @@ import ModelPopup from "./ModelPopup";
 import { userContext } from "../ContextFile/Context";
 
 
-const MainContent = ({userData , fetchData }) => {
+const MainContent = ({userData , handleDelete , fetchData , handlePost}) => {
   const { getById , setgetById , modalShow, setModalShow  } = useContext(userContext);
   
 
@@ -20,12 +20,13 @@ const MainContent = ({userData , fetchData }) => {
       </div>
    
       <div className="p-3">
-        <UsersForm userData = {userData}/>
+        <UsersForm userData = {userData}  handleDelete={handleDelete}/>
         <ModelPopup
         show={modalShow}
         onHide={() => setModalShow(false)}
         userData = {userData}
         fetchData = {fetchData}
+        handlePost = {handlePost}
       />
       </div>
 
