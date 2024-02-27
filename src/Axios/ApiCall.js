@@ -1,9 +1,9 @@
 import axios from "axios";
 import {constantFile} from "../Constant.js"
-export const fetchData = async () => {
+export const fetchData = async (id) => {
   try {
     const response = await axios.get(
-      "https://gorest.co.in/public/v2/users",
+      id ? `https://gorest.co.in/public/v2/users/${id}` : "https://gorest.co.in/public/v2/users",
       {
         headers: {
           Authorization:
@@ -13,7 +13,7 @@ export const fetchData = async () => {
       }
     );
 
-    return response.data;
+    return id ? [ response.data] : response.data;
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error; 

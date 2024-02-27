@@ -36,10 +36,11 @@ const ModelPopup = (props) => {
       status: "InActive",
     },
     validationSchema: validationSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       try {
         const response = await props.handlePost(values);
-        props.onHide();
+        resetForm()
+        props.onHide()
       } catch (error) {
         console.error("Error adding user:", error);
       }
@@ -49,7 +50,6 @@ const ModelPopup = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     formik.handleSubmit();
-    console.log("Form Values:", formik.values);
   };
   return (
     <div>
