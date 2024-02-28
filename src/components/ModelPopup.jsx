@@ -3,9 +3,8 @@ import Button from "react-bootstrap/Button";
 import { useState, useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { userContext } from "../ContextFile/Context";
-import { postApi } from "../Axios/ApiCall";
+
 
 const validationSchema = Yup.object({
   name: Yup.string().required("Required"),
@@ -15,32 +14,24 @@ const validationSchema = Yup.object({
 });
 
 const ModelPopup = (props) => {
-  const { setgetById } = useContext(userContext);
-  const [data, setData] = useState({
-    name: "",
-    email: "",
-    gender: "Male",
-    status: "InActive",
-  });
-
-  const handleChange = (e) => {
-    const value = e.target.value;
-    setData({ ...data, [e.target.name]: value });
-  };
+  const { getById , setgetById  , editUserData} = useContext(userContext);
+console.log(getById )
 
   const formik = useFormik({
-    initialValues: {
-      name: "",
-      email: "",
-      gender: "Male",
-      status: "InActive",
+    initialValues: getById.id ? editUserData : {
+      name : '',
+      email : '',
+      gender : '',
+      status : ''
     },
+    enableReinitialize: true,
     validationSchema: validationSchema,
     onSubmit: async (values, { resetForm }) => {
       try {
         const response = await props.handlePost(values);
         resetForm()
         props.onHide()
+        
       } catch (error) {
         console.error("Error adding user:", error);
       }
@@ -51,6 +42,7 @@ const ModelPopup = (props) => {
     e.preventDefault();
     formik.handleSubmit();
   };
+ 
   return (
     <div>
       <Modal

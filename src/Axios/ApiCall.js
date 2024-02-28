@@ -55,3 +55,13 @@ export const postApi = async (data) => {
     throw error;
   }
 };
+
+export const putAPI = async (id) => {
+  try{
+    const response = await fetchData(id)
+    return response[0]
+  }
+  catch (error){
+    console.log("erroe edit user" , error)
+  }
+}

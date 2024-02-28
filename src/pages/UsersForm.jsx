@@ -4,7 +4,7 @@ import axios from 'axios';
 
 
 
-const UsersForm = ({userData ,  handleDelete }) => {
+const UsersForm = ({userData ,  handleDelete , handlePut }) => {
   
     const column = [
         {heading : 'Edit' , type : 'icon' , iconType : 'solar:pen-2-bold-duotone' , btnType : 'edit'},
@@ -17,7 +17,7 @@ const UsersForm = ({userData ,  handleDelete }) => {
     ]
   return (
     <div>
-<TableList record={userData} column={column}  handleDelete={handleDelete}/>
+<TableList record={userData} column={column}  handleDelete={handleDelete} handlePut={handlePut}/>
     </div>
   )
 }

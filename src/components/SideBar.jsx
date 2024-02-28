@@ -27,13 +27,13 @@ const SideBar = ({ userData }) => {
   };
   return (
     <div>
-      <div className="bg-body-secondary vh-100 p-3">
-        <div className="d-flex flex-row justify-content-between">
+      <div className="bg-body-secondary vh-100  p-3">
+        <div className="d-flex flex-row justify-content-between ">
           <span className="text-dark fw-bold">Filter</span>
           <span className="fw-bold text-info">Favorite</span>
         </div>
         <hr />
-        <div>
+        <div className=" overflow-auto">
           {links && links.length > 0 ? (
             links.map((content, index) => (
               <div className="accordion" id={`accordion-${index}`} key={index}>
