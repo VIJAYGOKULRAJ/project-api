@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import '../css/table.css'
 
 
-const TableList = ({ record, column ,  handleDelete , handlePut}) => {
+const TableList = ({ record, column ,  handleDelete , handleGet}) => {
   const { getById, setgetById,  setModalShow } = useContext(userContext);
   const setValueInParent = (id , modelShow) => {
     setgetById({...getById , id : id , [modelShow ? 'openModel' : 'delete'] : modelShow})
@@ -14,7 +14,7 @@ const TableList = ({ record, column ,  handleDelete , handlePut}) => {
   };
   useEffect(()=>{ 
     getById.id &&  getById.delete === false && handleDelete(getById.id)  
-    getById.id && getById.openModel === true && handlePut(getById.id)
+    getById.id && getById.openModel === true && handleGet(getById.id)
   },[getById])
 
   return (

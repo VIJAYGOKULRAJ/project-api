@@ -27,7 +27,7 @@ const SideBar = ({ userData }) => {
   };
   return (
     <div>
-      <div className="bg-body-secondary vh-100  p-3">
+      <div className=" bg-body-secondary vh-100  p-3">
         <div className="d-flex flex-row justify-content-between ">
           <span className="text-dark fw-bold">Filter</span>
           <span className="fw-bold text-info">Favorite</span>

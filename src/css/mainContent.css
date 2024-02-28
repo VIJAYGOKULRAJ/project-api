@@ -26,6 +26,9 @@
     width: 100%;
     will-change: transform;
   }
+  .button-28-width{
+    width: 20%;
+  }
   
   .button-28:disabled {
     pointer-events: none;

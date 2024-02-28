@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import MainContent from "./components/MainContent";
 import SideBar from "./components/SideBar";
-import { deleteApi, fetchData, postApi , putAPI} from "./Axios/ApiCall";
+import { deleteApi, fetchData, postApi , getTheDataById, putAPI} from "./Axios/ApiCall";
 import {userContext} from './ContextFile/Context'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 
 
 export const Main = () => {
@@ -37,7 +38,7 @@ export const Main = () => {
 
       await deleteApi(userId);
       fetchUserData()
-      toast.success('User deleted successfully!', {
+      toast.success('User successfully deleted...!', {
         position: 'bottom-right',
         autoClose: 2000,
         hideProgressBar: true,
@@ -71,12 +72,28 @@ export const Main = () => {
       });
     }
   };
-  //
- 
-  const handlePut = async (id) => {
+  const handlePut = async (id , editData) => {
+    try{
+      await putAPI(id , editData)
+      fetchUserData()
+      toast.success('User successfully Edited ...!', {
+        position: 'bottom-right',
+        autoClose: 2000,
+        hideProgressBar: true,
+      });
+    }catch(er){
+      console.log(er);
+      toast.error('Error while edit user. Please try again later.', {
+        position: 'bottom-right',
+        autoClose: 2000,
+        hideProgressBar: true,
+      });
+    }
+  }
+  const handleGet = async (id) => {
     if(getById.id && getById.openModel === true){
     try{
-      const response = await putAPI(id)
+      const response = await getTheDataById(id)
       setEditUserData({...editUserData , name : response.name , email : response.email , gender : response.gender , status : response.status })
     }catch (error){
       console.log('Error edit user' , error)
@@ -95,14 +112,14 @@ export const Main = () => {
   }, [showById]);
   return (
     <>
-      <userContext.Provider value={{getById , setgetById ,modalShow, setModalShow , showById, setShowById , editUserData}}>
+      <userContext.Provider value={{getById , setgetById ,modalShow, setModalShow , showById, setShowById , editUserData }}>
         <div className="container-fluid ">
           <div className="row ">
             <div className="col-lg-2 p-0 ">
               <SideBar userData={allUser} />
             </div>
             <div className="col-lg-10 p-0">
-              <MainContent userData={users} fetchData={fetchUserData}  handleDelete={handleDelete} handlePost = {handlePost}  handlePut = {handlePut}/>
+              <MainContent userData={users} fetchData={fetchUserData}  handleDelete={handleDelete} handlePost = {handlePost}  handleGet = {handleGet} handlePut={handlePut}/>
             </div>
           </div>
         </div>

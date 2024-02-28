@@ -5,7 +5,7 @@ import { userContext } from "../ContextFile/Context";
 import '../css/mainContent.css'
 
 
-const MainContent = ({userData , handleDelete , fetchData , handlePost , handlePut}) => {
+const MainContent = ({userData , handleDelete , fetchData , handlePost , handleGet , handlePut}) => {
   const { getById , setgetById , modalShow, setModalShow  } = useContext(userContext);
   
 
@@ -21,7 +21,7 @@ const MainContent = ({userData , handleDelete , fetchData , handlePost , handleP
       </div>
    
       <div className="p-3">
-        <UsersForm userData = {userData}  handleDelete={handleDelete} handlePut={handlePut}/>
+        <UsersForm userData = {userData}  handleDelete={handleDelete} handleGet={handleGet} />
         <ModelPopup
         show={modalShow}
         onHide={() => {setModalShow(false);setgetById({
@@ -31,7 +31,7 @@ const MainContent = ({userData , handleDelete , fetchData , handlePost , handleP
         });}}
         userData = {userData}
         fetchData = {fetchData}
-
+        handlePut={handlePut}
         handlePost = {handlePost}
       />
       </div>

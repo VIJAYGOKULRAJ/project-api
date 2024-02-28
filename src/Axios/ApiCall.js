@@ -56,12 +56,25 @@ export const postApi = async (data) => {
   }
 };
 
-export const putAPI = async (id) => {
+export const getTheDataById = async (id) => {
   try{
     const response = await fetchData(id)
     return response[0]
   }
   catch (error){
-    console.log("erroe edit user" , error)
+    console.log("erroe get user" , error)
+  }
+}
+
+export const putAPI = async (id , editData) => {
+  try{
+    const res = await axios.put(`https://gorest.co.in/public/v2/users/${id}`, editData, {
+      headers: {
+        Authorization: `Bearer ${constantFile.TOKEN}`,
+      },
+    });
+    return res;
+  }catch(error){
+    console.log('error while eidt user' , error)
   }
 }
