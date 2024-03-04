@@ -3,10 +3,9 @@ import MainContent from "./components/MainContent";
 import SideBar from "./components/SideBar";
 import { deleteApi, fetchData, postApi , getTheDataById, putAPI} from "./Axios/ApiCall";
 import {userContext} from './ContextFile/Context'
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-
+import swal from 'sweetalert';
+import showToast from "./components/Tositify";
 
 export const Main = () => {
   const [allUser , setAllUser] = useState([])
@@ -34,60 +33,43 @@ export const Main = () => {
     }
   };
   const handleDelete = async (userId) => {
+    const deletePerson = await getTheDataById(userId)
     try {
-
-      await deleteApi(userId);
-      fetchUserData()
-      toast.success('User successfully deleted...!', {
-        position: 'bottom-right',
-        autoClose: 2000,
-        hideProgressBar: true,
-      });
+       getById.delete === false && await swal({
+        title: `Are you sure? ${deletePerson.name} will be Delete...! ` ,
+        text: "Once deleted, you will not be able to recover this user!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })&& 
+        await deleteApi(userId)
+        fetchUserData();
+        showToast("User successfully deleted...!" , "success")
+      
     } catch (error) {
-      console.error("Error handling delete operation:", error)
-      toast.error('Error deleting user. Please try again later.', {
-        position: 'bottom-right',
-        autoClose: 2000,
-        hideProgressBar: true,
-      });
+      console.error("Error handling delete operation:", error);
+      showToast("Error while deleted...!" , "error")
     }
   };
 
-  //post api
   const handlePost = async (postData) => {
     try {
       const response = await postApi(postData);
       fetchUserData()
-      toast.success('User successfully created...!', {
-        position: 'bottom-right',
-        autoClose: 2000,
-        hideProgressBar: true,
-      });
+      showToast('User successfully created...!', "success");
     } catch (error) {
       console.error("Error adding user:", error);
-      toast.error('Error while create user. Please try again later.', {
-        position: 'bottom-right',
-        autoClose: 2000,
-        hideProgressBar: true,
-      });
+      showToast("Error while Adding user...!" , "error")
     }
   };
   const handlePut = async (id , editData) => {
     try{
       await putAPI(id , editData)
       fetchUserData()
-      toast.success('User successfully Edited ...!', {
-        position: 'bottom-right',
-        autoClose: 2000,
-        hideProgressBar: true,
-      });
+      showToast('User successfully Edited ...!' , "success");
     }catch(er){
       console.log(er);
-      toast.error('Error while edit user. Please try again later.', {
-        position: 'bottom-right',
-        autoClose: 2000,
-        hideProgressBar: true,
-      });
+      showToast("Error while edit user...!" , "error")
     }
   }
   const handleGet = async (id) => {
@@ -115,10 +97,10 @@ export const Main = () => {
       <userContext.Provider value={{getById , setgetById ,modalShow, setModalShow , showById, setShowById , editUserData }}>
         <div className="container-fluid ">
           <div className="row ">
-            <div className="col-lg-2 p-0 ">
+            <div className="col-lg-2 p-0 vh-100">
               <SideBar userData={allUser} />
             </div>
-            <div className="col-lg-10 p-0">
+            <div className="col-lg-10 p-0 " >
               <MainContent userData={users} fetchData={fetchUserData}  handleDelete={handleDelete} handlePost = {handlePost}  handleGet = {handleGet} handlePut={handlePut}/>
             </div>
           </div>

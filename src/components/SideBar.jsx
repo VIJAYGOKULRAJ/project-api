@@ -3,17 +3,13 @@ import "../css/sideBar.css";
 import { userContext } from "../ContextFile/Context";
 
 const SideBar = ({ userData }) => {
-  const [accordion, setAccordion] = useState("");
+  
   const { showById, setShowById } = useContext(userContext);
-  const handleShowAccordion = () => {
-    setAccordion("Show");
-  };
+  
 
   const links = [
     { heading: "Name", option: userData.map((item) => [item.name, item.id]) },
-    { heading: "Email", option: userData.map((item) => [item.email]) },
-    { heading: "Gender", option: ["Male", "Female" , "Other"] },
-    { heading: "Status", option: ["Active", "Inactive"] },
+    { heading: "Email", option: userData.map((item) => [item.email , item.id]) },
   ];
 
   const handleShowData = (e , selectedId) => {
@@ -25,16 +21,19 @@ const SideBar = ({ userData }) => {
       }
     
   };
+  const handleUncheck = () => {
+    setShowById(null);
+  }
   return (
-    <div>
+    <div className="overflow-scroll">
       <div className=" bg-body-secondary vh-100  p-3">
         <div className="d-flex flex-row justify-content-between ">
           <span className="text-dark fw-bold">Filter</span>
           <span className="fw-bold text-info">Favorite</span>
         </div>
         <hr />
-        <div className=" overflow-auto">
-          {links && links.length > 0 ? (
+        <div className="accordian-height">
+          {links && links.length > 0 && (
             links.map((content, index) => (
               <div className="accordion" id={`accordion-${index}`} key={index}>
                 <div className="accordion-item">
@@ -46,7 +45,7 @@ const SideBar = ({ userData }) => {
                       data-bs-target={`#collapse-${index}`}
                       aria-expanded={false}
                       aria-controls={`collapse-${index}`}
-                      onClick={handleShowAccordion}
+                    
                     >
                       <div className="fw-bold ">{content.heading}</div>
                     </button>
@@ -55,6 +54,7 @@ const SideBar = ({ userData }) => {
                     id={`collapse-${index}`}
                     className={`accordion-collapse collapse`}
                     data-bs-parent={`#accordion-${index}`}
+                    
                   >
                     <div className="accordion-body p-0">
                       {content?.option?.map((val) => (
@@ -64,7 +64,7 @@ const SideBar = ({ userData }) => {
                         >
                           <div className="py-3">
                             <input
-                              type="checkbox"
+                              type="radio"
                               name=""
                               id={`checkbox-${val[1]}`}
                               onChange={(e) => handleShowData(e , val[1])}
@@ -84,10 +84,14 @@ const SideBar = ({ userData }) => {
                 </div>
               </div>
             ))
-          ) : (
-            <></>
           )}
         </div>
+         <div className="row">
+         <div className="col-6">
+         <button onClick={handleUncheck} className="button-28 ">Reset</button>
+         </div>
+        
+         </div>
       </div>
     </div>
   );

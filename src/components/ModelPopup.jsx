@@ -4,34 +4,36 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { userContext } from "../ContextFile/Context";
 
-
 const validationSchema = Yup.object({
-  name: Yup.string().required("Required"),
+  name: Yup.string()
+    .matches(/^[^\s].*$/, "Name should not start with a space")
+    .required("Required"),
   email: Yup.string().email("Invalid email address").required("Required"),
   gender: Yup.string().required("Required"),
   status: Yup.string().required("Required"),
 });
 
 const ModelPopup = (props) => {
-  const { getById , setgetById  , editUserData} = useContext(userContext);
+  const { getById  , editUserData} = useContext(userContext);
 
  
   const formik = useFormik({
     initialValues: getById.id ? editUserData : {
       name : '',
       email : '',
-      gender : 'male',
-      status : 'active'
+      gender : '',
+      status : ''
     },
    
     enableReinitialize: true,
     validationSchema: validationSchema,
+    
     onSubmit: async (values, { resetForm }) => {
+      
       try {
-     
-        const response = getById.id ? await props.handlePut(getById.id , values) : await props.handlePost(values);
+         getById.id ? await props.handlePut(getById.id , values) : await props.handlePost(values);
         resetForm()
-        props.onHide()
+        
         
       } catch (error) {
         console.error("Error adding user:", error);
@@ -42,6 +44,11 @@ const ModelPopup = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     formik.handleSubmit();
+    
+  };
+  const handleModalHide = () => {
+    formik.resetForm(); 
+    props.onHide();
   };
  
   return (
@@ -51,6 +58,8 @@ const ModelPopup = (props) => {
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        backdrop="static"
+        onHide={handleModalHide}        
       >
         <Modal.Header closeButton className="p-4" >
           <Modal.Title id="contained-modal-title-vcenter" >Add User</Modal.Title>
@@ -134,7 +143,7 @@ const ModelPopup = (props) => {
               <button onClick={props.onHide} className="button-28 button-28-width">
                 Close
               </button>
-              <button type="submit" className="mx-2 button-28 button-28-width">
+              <button type="submit" className="mx-2 button-28 button-28-width" >
                 Save
               </button>
             </div>

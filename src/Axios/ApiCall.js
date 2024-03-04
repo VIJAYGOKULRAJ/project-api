@@ -3,12 +3,10 @@ import {constantFile} from "../Constant.js"
 export const fetchData = async (id) => {
   try {
     const response = await axios.get(
-      id ? `https://gorest.co.in/public/v2/users/${id}` : "https://gorest.co.in/public/v2/users",
+      id ? `${constantFile.BASE_URL}/${id}` : `${constantFile.BASE_URL}`,
       {
         headers: {
-          Authorization:
-            "Bearer " +
-            "032c91f0b1744e89f2f312238d52c581c0553d923d86e8272ec2999967525691",
+          Authorization: `Bearer ${constantFile.TOKEN}`,
         },
       }
     );
@@ -21,12 +19,10 @@ export const fetchData = async (id) => {
 };
 
 export const deleteApi = (getById) => {
-  const token =
-    "032c91f0b1744e89f2f312238d52c581c0553d923d86e8272ec2999967525691";
-  return axios
-    .delete(`https://gorest.co.in/public/v2/users/${getById}`, {
+ return axios
+    .delete(`${constantFile.BASE_URL}/${getById}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization:  `Bearer ${constantFile.TOKEN}`,
       },
     })
     .then((response) => {
@@ -68,7 +64,7 @@ export const getTheDataById = async (id) => {
 
 export const putAPI = async (id , editData) => {
   try{
-    const res = await axios.put(`https://gorest.co.in/public/v2/users/${id}`, editData, {
+    const res = await axios.put(`${constantFile.BASE_URL}/${id}`, editData, {
       headers: {
         Authorization: `Bearer ${constantFile.TOKEN}`,
       },

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import UsersForm from "../pages/UsersForm"
 import ModelPopup from "./ModelPopup";
 import { userContext } from "../ContextFile/Context";
@@ -6,7 +6,7 @@ import '../css/mainContent.css'
 
 
 const MainContent = ({userData , handleDelete , fetchData , handlePost , handleGet , handlePut}) => {
-  const { getById , setgetById , modalShow, setModalShow  } = useContext(userContext);
+  const {  setgetById , modalShow, setModalShow  } = useContext(userContext);
   
 
   return (
@@ -28,7 +28,7 @@ const MainContent = ({userData , handleDelete , fetchData , handlePost , handleG
           id: '',
           delete: '',
           openModel: ''
-        });}}
+        }); }}
         userData = {userData}
         fetchData = {fetchData}
         handlePut={handlePut}
