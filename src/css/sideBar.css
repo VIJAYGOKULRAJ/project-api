@@ -3,3 +3,12 @@
     --bs-accordion-border-color: none !important;
     --bs-accordion-btn-focus-box-shadow : none !important;
 }
+.accordian-height{
+    height: 600px !important;
+}
+
+.collapse.in, .collapse{
+    height: 400px;
+    overflow-y: scroll;
+    margin-bottom: 30px;
+  }

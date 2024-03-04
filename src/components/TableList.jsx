@@ -1,20 +1,25 @@
 import { useState, useContext, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import { userContext } from "../ContextFile/Context";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import '../css/table.css'
 
 
-const TableList = ({ record, column ,  handleDelete}) => {
+const TableList = ({ record, column ,  handleDelete , handleGet}) => {
   const { getById, setgetById,  setModalShow } = useContext(userContext);
   const setValueInParent = (id , modelShow) => {
     setgetById({...getById , id : id , [modelShow ? 'openModel' : 'delete'] : modelShow})
     setModalShow(modelShow)
   };
   useEffect(()=>{ 
-    getById.id && getById.delete === false && handleDelete(getById.id)
+    getById.id &&  getById.delete === false && handleDelete(getById.id)  
+    getById.id && getById.openModel === true && handleGet(getById.id)
   },[getById])
 
   return (
     <>
+     <ToastContainer position="bottom-right" autoClose={3000} hideProgressBar={true} />
       <div className="row">
         <div className="col-12">
           <table className="table table-striped table-light">

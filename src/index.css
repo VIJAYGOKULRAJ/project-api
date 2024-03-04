@@ -7,7 +7,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Roboto' , 'Sans-serif';
 }
-
+* {
+  user-select: none;
+}
+*::selection {
+  background: none;
+}
+*::-moz-selection {
+  background: none;
+}
 table{
   border: 1px solid #c6c7c8;
 }
@@ -21,4 +29,7 @@ table tr td{
 .dropdown-btn{
   border: none;
   background: transparent;
+}
+::-webkit-scrollbar{
+  display: none;
 }

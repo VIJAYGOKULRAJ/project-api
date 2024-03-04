@@ -1,9 +1,10 @@
-import {Main}  from "./Main";
+
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Body } from './Route';
 function App() {
   return (
     <div>
-     <Main/>
+     <Body/>
     </div>
   );
 }

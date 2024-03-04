@@ -1,42 +1,86 @@
 import { useEffect, useState } from "react";
 import MainContent from "./components/MainContent";
 import SideBar from "./components/SideBar";
-import { deleteApi, fetchData, postApi} from "./Axios/ApiCall";
+import { deleteApi, fetchData, postApi , getTheDataById, putAPI} from "./Axios/ApiCall";
 import {userContext} from './ContextFile/Context'
-
+import 'react-toastify/dist/ReactToastify.css';
+import swal from 'sweetalert';
+import showToast from "./components/Tositify";
 
 export const Main = () => {
+  const [allUser , setAllUser] = useState([])
   const [users, setUsers] = useState([]);
   const [modalShow, setModalShow] = useState(false);
   const [getById, setgetById] = useState({
     id : '' , delete :'' , openModel : ''
   });
+  const [showById , setShowById] = useState('')
+  const [editUserData , setEditUserData] = useState({
+    name: "",
+    email: "",
+    gender: "",
+    status: "",
+  })
   const fetchUserData = async () => {
     try {
-      const userData = await fetchData();
+      const userData = await fetchData(showById);
       setUsers(userData);
+      if(!showById)
+      setAllUser(userData)
+    
     } catch (error) {
       console.error("Error in fetchUserData:", error);
     }
   };
   const handleDelete = async (userId) => {
+    const deletePerson = await getTheDataById(userId)
     try {
-      await deleteApi(userId);
-      fetchUserData();
+       getById.delete === false && await swal({
+        title: `Are you sure? ${deletePerson.name} will be Delete...! ` ,
+        text: "Once deleted, you will not be able to recover this user!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })&& 
+        await deleteApi(userId)
+        fetchUserData();
+        showToast("User successfully deleted...!" , "success")
+      
     } catch (error) {
       console.error("Error handling delete operation:", error);
+      showToast("Error while deleted...!" , "error")
     }
   };
 
-  //post api
   const handlePost = async (postData) => {
     try {
       const response = await postApi(postData);
-      fetchUserData();
+      fetchUserData()
+      showToast('User successfully created...!', "success");
     } catch (error) {
       console.error("Error adding user:", error);
+      showToast("Error while Adding user...!" , "error")
     }
   };
+  const handlePut = async (id , editData) => {
+    try{
+      await putAPI(id , editData)
+      fetchUserData()
+      showToast('User successfully Edited ...!' , "success");
+    }catch(er){
+      console.log(er);
+      showToast("Error while edit user...!" , "error")
+    }
+  }
+  const handleGet = async (id) => {
+    if(getById.id && getById.openModel === true){
+    try{
+      const response = await getTheDataById(id)
+      setEditUserData({...editUserData , name : response.name , email : response.email , gender : response.gender , status : response.status })
+    }catch (error){
+      console.log('Error edit user' , error)
+    }
+  }}
   
   useEffect(() => {
     setgetById({
@@ -47,17 +91,17 @@ export const Main = () => {
   }, [users]);
   useEffect(() => {
     fetchUserData();
-  }, []);
+  }, [showById]);
   return (
     <>
-      <userContext.Provider value={{getById , setgetById ,modalShow, setModalShow }}>
+      <userContext.Provider value={{getById , setgetById ,modalShow, setModalShow , showById, setShowById , editUserData }}>
         <div className="container-fluid ">
           <div className="row ">
-            <div className="col-lg-2 p-0 ">
-              <SideBar userData={users} />
+            <div className="col-lg-2 p-0 vh-100">
+              <SideBar userData={allUser} />
             </div>
-            <div className="col-lg-10 p-0">
-              <MainContent userData={users} fetchData={fetchUserData}  handleDelete={handleDelete} handlePost = {handlePost} />
+            <div className="col-lg-10 p-0 " >
+              <MainContent userData={users} fetchData={fetchUserData}  handleDelete={handleDelete} handlePost = {handlePost}  handleGet = {handleGet} handlePut={handlePut}/>
             </div>
           </div>
         </div>

@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Caudex&display=swap");
+
+:root {
+  --clr-background: rgb(247, 244, 244);
+  --clr-gray: rgb(119, 114, 114);
+  --font-main: "Caudex", serif;
+  --clr-dark-gray: #262626;
+  --clr-dark-black: #121212;
+  --clr-dark-text: rgb(226, 225, 225);
+}
+
+body {
+  font-family: var(--font-main);
+  margin: 0 auto;
+}

@@ -1,45 +1,40 @@
 import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
 import { useState, useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { userContext } from "../ContextFile/Context";
-import { postApi } from "../Axios/ApiCall";
 
 const validationSchema = Yup.object({
-  name: Yup.string().required("Required"),
+  name: Yup.string()
+    .matches(/^[^\s].*$/, "Name should not start with a space")
+    .required("Required"),
   email: Yup.string().email("Invalid email address").required("Required"),
   gender: Yup.string().required("Required"),
   status: Yup.string().required("Required"),
 });
 
 const ModelPopup = (props) => {
-  const { setgetById } = useContext(userContext);
-  const [data, setData] = useState({
-    name: "",
-    email: "",
-    gender: "Male",
-    status: "InActive",
-  });
+  const { getById  , editUserData} = useContext(userContext);
 
-  const handleChange = (e) => {
-    const value = e.target.value;
-    setData({ ...data, [e.target.name]: value });
-  };
-
+ 
   const formik = useFormik({
-    initialValues: {
-      name: "",
-      email: "",
-      gender: "Male",
-      status: "InActive",
+    initialValues: getById.id ? editUserData : {
+      name : '',
+      email : '',
+      gender : '',
+      status : ''
     },
+   
+    enableReinitialize: true,
     validationSchema: validationSchema,
-    onSubmit: async (values) => {
+    
+    onSubmit: async (values, { resetForm }) => {
+      
       try {
-        const response = await props.handlePost(values);
-        props.onHide();
+         getById.id ? await props.handlePut(getById.id , values) : await props.handlePost(values);
+        resetForm()
+        
+        
       } catch (error) {
         console.error("Error adding user:", error);
       }
@@ -49,8 +44,13 @@ const ModelPopup = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     formik.handleSubmit();
-    console.log("Form Values:", formik.values);
+    
   };
+  const handleModalHide = () => {
+    formik.resetForm(); 
+    props.onHide();
+  };
+ 
   return (
     <div>
       <Modal
@@ -58,6 +58,8 @@ const ModelPopup = (props) => {
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        backdrop="static"
+        onHide={handleModalHide}        
       >
         <Modal.Header closeButton className="p-4" >
           <Modal.Title id="contained-modal-title-vcenter" >Add User</Modal.Title>
@@ -117,7 +119,7 @@ const ModelPopup = (props) => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               >
-                <option value="Male">Male</option>
+                <option selected value="Male">Male</option>
                 <option value="Female">Female</option>
                 <option value="Other">Other</option>
               </select>
@@ -133,17 +135,17 @@ const ModelPopup = (props) => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               >
-                <option value="Active">Active</option>
+                <option selected value="Active">Active</option>
                 <option value="InActive">InActive</option>
               </select>
             </div>
-            <div className="d-flex justify-content-end my-2">
-              <Button onClick={props.onHide} className="">
+            <div className="d-flex justify-content-end mt-5 my-2">
+              <button onClick={props.onHide} className="button-28 button-28-width">
                 Close
-              </Button>
-              <Button type="submit" className="mx-2">
+              </button>
+              <button type="submit" className="mx-2 button-28 button-28-width" >
                 Save
-              </Button>
+              </button>
             </div>
           </form>
         </Modal.Body>
