@@ -25,9 +25,9 @@ const TableList = ({ record, column ,  handleDelete , handleGet}) => {
           <table className="table table-striped table-light">
             <thead>
               <tr className="text-center">
-                {column && Array.isArray(column) && column.length > 0 && column.map((item) => (
+                {column ? Array.isArray(column) && column.length > 0 && column.map((item) => (
                   <th key={item.heading}>{item.heading}</th>
-                ))}
+                )) : <th>{commonFileComponents?.table?.noRecordFound}</th>}
               </tr>
             </thead>
             <tbody>
@@ -44,7 +44,7 @@ const TableList = ({ record, column ,  handleDelete , handleGet}) => {
               ) : (
                 <tr>
                   <td colSpan={column.length} className="text-center">
-{commonFileComponents.table.noRecordFound}
+{commonFileComponents?.table?.noRecordFound}
                   </td>
                 </tr>
               )}
@@ -70,13 +70,13 @@ const TableRowContent = ({
   
   return (
     <tr>
-      {column.map((colItem) => {
+      {column && Array.isArray(column) && column.length > 0 && column.map((colItem) => {
         if (colItem.type === "dropdown") {
           return (
-            <td key={colItem.heading} className="text-center">
+            <td key={colItem?.heading} className="text-center">
               <select
                 className="dropdown-btn"
-                value={item.value}
+                value={item?.value}
                
               >
                 {colItem?.options && Array.isArray(colItem.options) && colItem.options.length > 0 && colItem.options.map((option) => (
@@ -87,27 +87,27 @@ const TableRowContent = ({
               </select>
             </td>
           );
-        } else if (colItem.type === "icon") {
+        } else if (colItem?.type === "icon") {
           return (
-            <td key={colItem.heading} className="text-center">
+            <td key={colItem?.heading} className="text-center">
               <button
                 type="button"
-                onClick={() => handleGetId(item.id, colItem.btnType === 'edit' )}
+                onClick={() => handleGetId(item?.id, colItem?.btnType === 'edit' )}
                 className="border-0 bg-transparent"
-                id={item.id}
+                id={item?.id}
               >
-                <Icon icon={colItem.iconType} />
+                <Icon icon={colItem?.iconType} />
               </button>
             </td>
           );
         } else {
           return colItem.value === "" ? (
-            <td key={colItem.heading} className="text-center">
+            <td key={colItem?.heading} className="text-center">
               {index + 1}
             </td>
           ) : (
-            <td key={colItem.heading} className="text-center">
-              {item[colItem.value]}
+            <td key={colItem?.heading} className="text-center">
+              {item[colItem?.value]}
             </td>
           );
         }

@@ -7,8 +7,8 @@ const SideBar = ({ userData }) => {
   const { showById, setShowById } = useContext(userContext);
 
   const links = [
-    { heading: "Name", option: userData.map((item) => [item.name, item.id]) },
-    { heading: "Email", option: userData.map((item) => [item.email, item.id]) },
+    { heading: "Name", option: userData?.map((item) => [item?.name, item?.id]) },
+    { heading: "Email", option: userData?.map((item) => [item?.email, item?.id]) },
   ];
 
   const handleShowData = (e, selectedId) => {
@@ -22,10 +22,10 @@ const SideBar = ({ userData }) => {
       <div className=" bg-body-secondary vh-100  p-3">
         <div className="d-flex flex-row justify-content-between ">
           <span className="text-dark fw-bold">
-            {commonFileComponents.sideBar.filter}
+            {commonFileComponents?.sideBar?.filter}
           </span>
           <span className="fw-bold text-info">
-            {commonFileComponents.sideBar.favorite}
+            {commonFileComponents?.sideBar?.favorite}
           </span>
         </div>
         <hr />
@@ -54,10 +54,10 @@ const SideBar = ({ userData }) => {
                   >
                     <div className="accordion-body p-0">
                       {content?.option &&
-                        Array.isArray(content.option) &&
-                        content.option.length > 0 && (
+                        Array.isArray(content?.option) &&
+                        content?.option?.length > 0 && (
                           <div className="accordion-body p-0">
-                            {content.option.map((val) => (
+                            {content?.option?.map((val) => (
                               <div
                                 className="d-flex flex-row algin-items-center px-2"
                                 key={val[1]} 
@@ -90,7 +90,7 @@ const SideBar = ({ userData }) => {
         <div className="row">
           <div className="col-6">
             <button onClick={() => setShowById(null)} className="button-28 ">
-              Reset
+            {commonFileComponents?.sideBar?.reset}
             </button>
           </div>
         </div>

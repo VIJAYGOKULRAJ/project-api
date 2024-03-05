@@ -14,10 +14,10 @@ const MainContent = ({userData , handleDelete , fetchData , handlePost , handleG
     <div>
       <div className="d-flex justify-content-between">
       <div className="p-3 fw-bold fs-5">
-        {commonFilePages.userReview}
+        {commonFilePages?.userReview}
       </div>
       <div  className="p-3 fw-bold fs-5">
-        <button type="submit" onClick={() => setModalShow(true)} className="button-28">{commonFilePages.addUser}</button>
+        <button type="submit" onClick={() => setModalShow(true)} className="button-28">{commonFilePages?.addUser}</button>
       </div>
       </div>
    

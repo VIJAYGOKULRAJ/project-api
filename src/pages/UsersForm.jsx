@@ -9,7 +9,7 @@ const UsersForm = ({userData ,  handleDelete , handleGet }) => {
   
   return (
     <div>
-<TableList record={userData} column={commonFileComponents.userForm.column}  handleDelete={handleDelete} handleGet={handleGet}/>
+<TableList record={userData} column={commonFileComponents?.userForm?.column}  handleDelete={handleDelete} handleGet={handleGet}/>
     </div>
   )
 }
