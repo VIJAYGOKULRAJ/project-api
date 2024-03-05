@@ -33,7 +33,7 @@ const ModelPopup = (props) => {
     onSubmit: async (values, { resetForm }) => {
       try {
         getById.id
-          ? await props.handlePut(getById.id, values)
+          ? await props.handlePut(getById?.id, values)
           : await props.handlePost(values);
         resetForm();
       } catch (error) {
@@ -62,13 +62,13 @@ const ModelPopup = (props) => {
         onHide={handleModalHide}
       >
         <Modal.Header closeButton className="p-4">
-          <Modal.Title id="contained-modal-title-vcenter">Add User</Modal.Title>
+          <Modal.Title id="contained-modal-title-vcenter">{commonFileComponents?.modelPopup?.addUser}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form onSubmit={handleSubmit} className="p-3">
             <div className="mb-3">
               <label htmlFor="name" className="form-label">
-                {commonFileComponents.modelPopup.name}
+                {commonFileComponents?.modelPopup?.name}
               </label>
               <input
                 type="text"
@@ -88,7 +88,7 @@ const ModelPopup = (props) => {
             </div>
             <div className="mb-3">
               <label htmlFor="email" className="form-label">
-                {commonFileComponents.modelPopup.email}
+                {commonFileComponents?.modelPopup?.email}
               </label>
               <input
                 type="email"
@@ -108,7 +108,7 @@ const ModelPopup = (props) => {
             </div>
             <div className="mb-3">
               <label htmlFor="gender" className="form-label">
-                {commonFileComponents.modelPopup.gender}
+                {commonFileComponents?.modelPopup?.gender}
               </label>
               <select
                 className="form-select"
@@ -117,7 +117,7 @@ const ModelPopup = (props) => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               >
-                {commonFileComponents.optionGender.map((item, index) => (
+                {commonFileComponents?.optionGender?.map((item, index) => (
                   <option key={index} value={Object.keys(item)[0]}>
                     {Object.values(item)[0]}
                   </option>
@@ -126,7 +126,7 @@ const ModelPopup = (props) => {
             </div>
             <div className="mb-3">
               <label htmlFor="status" className="form-label">
-                {commonFileComponents.modelPopup.status}
+                {commonFileComponents?.modelPopup?.status}
               </label>
               <select
                 className="form-select"
@@ -135,7 +135,7 @@ const ModelPopup = (props) => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               >
-                {commonFileComponents.optionStatus.map((item, index) => (
+                {commonFileComponents?.optionStatus?.map((item, index) => (
                   <option key={index} value={Object.keys(item)}>
                     {Object.values(item)}
                   </option>
@@ -147,10 +147,10 @@ const ModelPopup = (props) => {
                 onClick={props.onHide}
                 className="button-28 button-28-width"
               >
-                {commonFileComponents.modelPopup.close}
+                {commonFileComponents?.modelPopup?.close}
               </button>
               <button type="submit" className="mx-2 button-28 button-28-width">
-                {commonFileComponents.modelPopup.save}
+                {commonFileComponents?.modelPopup?.save}
               </button>
             </div>
           </form>

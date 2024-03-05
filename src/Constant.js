@@ -1,3 +1,5 @@
+
+
 //authorization token and url
 export const constantFile = {
     BASE_URL : "https://gorest.co.in/public/v2/users",
@@ -18,7 +20,8 @@ export const commonFileComponents = {
         gender : 'Gender:',
         status: 'Status:',
         close : 'Close',
-        save : 'Save'
+        save : 'Save',
+        addUser : 'Add User'
     },
     optionGender : [
         {male : 'Male'},
@@ -32,7 +35,8 @@ export const commonFileComponents = {
     ],
     sideBar : {
         favorite : 'Favorite',
-        filter : 'Filter'
+        filter : 'Filter',
+        reset : 'Reset'
     },
     table : {
         noRecordFound : 'No records found.'
