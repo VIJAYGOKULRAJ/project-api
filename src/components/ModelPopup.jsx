@@ -1,6 +1,7 @@
 import Modal from "react-bootstrap/Modal";
 import { useState, useContext } from "react";
 import { useFormik } from "formik";
+import { commonFileComponents } from "../Constant.js";
 import * as Yup from "yup";
 import { userContext } from "../ContextFile/Context";
 
@@ -14,27 +15,27 @@ const validationSchema = Yup.object({
 });
 
 const ModelPopup = (props) => {
-  const { getById  , editUserData} = useContext(userContext);
+  const { getById, editUserData } = useContext(userContext);
 
- 
   const formik = useFormik({
-    initialValues: getById.id ? editUserData : {
-      name : '',
-      email : '',
-      gender : '',
-      status : ''
-    },
-   
+    initialValues: getById.id
+      ? editUserData
+      : {
+          name: "",
+          email: "",
+          gender: "",
+          status: "",
+        },
+
     enableReinitialize: true,
     validationSchema: validationSchema,
-    
+
     onSubmit: async (values, { resetForm }) => {
-      
       try {
-         getById.id ? await props.handlePut(getById.id , values) : await props.handlePost(values);
-        resetForm()
-        
-        
+        getById.id
+          ? await props.handlePut(getById.id, values)
+          : await props.handlePost(values);
+        resetForm();
       } catch (error) {
         console.error("Error adding user:", error);
       }
@@ -44,13 +45,12 @@ const ModelPopup = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     formik.handleSubmit();
-    
   };
   const handleModalHide = () => {
-    formik.resetForm(); 
+    formik.resetForm();
     props.onHide();
   };
- 
+
   return (
     <div>
       <Modal
@@ -59,16 +59,16 @@ const ModelPopup = (props) => {
         aria-labelledby="contained-modal-title-vcenter"
         centered
         backdrop="static"
-        onHide={handleModalHide}        
+        onHide={handleModalHide}
       >
-        <Modal.Header closeButton className="p-4" >
-          <Modal.Title id="contained-modal-title-vcenter" >Add User</Modal.Title>
+        <Modal.Header closeButton className="p-4">
+          <Modal.Title id="contained-modal-title-vcenter">Add User</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form  onSubmit={handleSubmit} className="p-3">
+          <form onSubmit={handleSubmit} className="p-3">
             <div className="mb-3">
               <label htmlFor="name" className="form-label">
-                Name:
+                {commonFileComponents.modelPopup.name}
               </label>
               <input
                 type="text"
@@ -82,20 +82,18 @@ const ModelPopup = (props) => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              {formik.touched.name && formik.errors.name ? (
+              {formik.touched.name && formik.errors.name && (
                 <div className="invalid-feedback">{formik.errors.name}</div>
-              ) : null}
+              )}
             </div>
             <div className="mb-3">
               <label htmlFor="email" className="form-label">
-                Email:
+                {commonFileComponents.modelPopup.email}
               </label>
               <input
                 type="email"
                 className={`form-control ${
-                  formik.touched.email && formik.errors.email
-                    ? "is-invalid"
-                    : ""
+                  formik.touched.email && formik.errors.email && "is-invalid"
                 }`}
                 id="email"
                 name="email"
@@ -110,7 +108,7 @@ const ModelPopup = (props) => {
             </div>
             <div className="mb-3">
               <label htmlFor="gender" className="form-label">
-                Gender:
+                {commonFileComponents.modelPopup.gender}
               </label>
               <select
                 className="form-select"
@@ -119,14 +117,16 @@ const ModelPopup = (props) => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               >
-                <option selected value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
+                {commonFileComponents.optionGender.map((item, index) => (
+                  <option key={index} value={Object.keys(item)[0]}>
+                    {Object.values(item)[0]}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="mb-3">
               <label htmlFor="status" className="form-label">
-                Status:
+                {commonFileComponents.modelPopup.status}
               </label>
               <select
                 className="form-select"
@@ -135,16 +135,22 @@ const ModelPopup = (props) => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               >
-                <option selected value="Active">Active</option>
-                <option value="InActive">InActive</option>
+                {commonFileComponents.optionStatus.map((item, index) => (
+                  <option key={index} value={Object.keys(item)}>
+                    {Object.values(item)}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="d-flex justify-content-end mt-5 my-2">
-              <button onClick={props.onHide} className="button-28 button-28-width">
-                Close
+              <button
+                onClick={props.onHide}
+                className="button-28 button-28-width"
+              >
+                {commonFileComponents.modelPopup.close}
               </button>
-              <button type="submit" className="mx-2 button-28 button-28-width" >
-                Save
+              <button type="submit" className="mx-2 button-28 button-28-width">
+                {commonFileComponents.modelPopup.save}
               </button>
             </div>
           </form>

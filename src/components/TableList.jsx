@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react";
 import { userContext } from "../ContextFile/Context";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import '../css/table.css'
+import {commonFileComponents} from '../Constant.js'
 
 
 const TableList = ({ record, column ,  handleDelete , handleGet}) => {
@@ -25,7 +25,7 @@ const TableList = ({ record, column ,  handleDelete , handleGet}) => {
           <table className="table table-striped table-light">
             <thead>
               <tr className="text-center">
-                {column.map((item) => (
+                {column && Array.isArray(column) && column.length > 0 && column.map((item) => (
                   <th key={item.heading}>{item.heading}</th>
                 ))}
               </tr>
@@ -44,7 +44,7 @@ const TableList = ({ record, column ,  handleDelete , handleGet}) => {
               ) : (
                 <tr>
                   <td colSpan={column.length} className="text-center">
-                    No records found.
+{commonFileComponents.table.noRecordFound}
                   </td>
                 </tr>
               )}
@@ -62,15 +62,12 @@ const TableRowContent = ({
   index,
   setValueInParent, 
 }) => {
-  const { getById, setgetById, setModalShow } = useContext(userContext);
+ 
 
   const handleGetId =  (id, showModel) => {
     setValueInParent(id , showModel); 
   };
-  const [value, setValue] = useState();
- const handleChange = (e) => {
-    setValue(e.target.value);
-  };
+  
   return (
     <tr>
       {column.map((colItem) => {
@@ -80,9 +77,9 @@ const TableRowContent = ({
               <select
                 className="dropdown-btn"
                 value={item.value}
-                onChange={handleChange}
+               
               >
-                {colItem.options.map((option) => (
+                {colItem?.options && Array.isArray(colItem.options) && colItem.options.length > 0 && colItem.options.map((option) => (
                   <option key={option} value={option}>
                     {option}
                   </option>
