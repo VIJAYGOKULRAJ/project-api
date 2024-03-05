@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import UsersForm from "../pages/UsersForm"
 import ModelPopup from "./ModelPopup";
+import {commonFilePages} from "../Constant.js"
 import { userContext } from "../ContextFile/Context";
 import '../css/mainContent.css'
 
@@ -13,10 +14,10 @@ const MainContent = ({userData , handleDelete , fetchData , handlePost , handleG
     <div>
       <div className="d-flex justify-content-between">
       <div className="p-3 fw-bold fs-5">
-        User Review
+        {commonFilePages.userReview}
       </div>
       <div  className="p-3 fw-bold fs-5">
-        <button type="submit" onClick={() => setModalShow(true)} className="button-28">Add User</button>
+        <button type="submit" onClick={() => setModalShow(true)} className="button-28">{commonFilePages.addUser}</button>
       </div>
       </div>
    
