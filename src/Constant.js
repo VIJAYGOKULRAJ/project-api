@@ -6,6 +6,15 @@ export const commonFilePages = {
     userReview : "User Review",
     addUser : 'Add User',
 }
+export const welcomePage = {
+    welcomeback : "Welcome Back",
+    Login : "Login"
+}
+export const inputFeilds = [
+     { name : 'email', type : 'email' , placeholder : 'Email' , id : 'email-id' , labelName : 'Name' },
+     { name : 'password', type : 'password' , placeholder : 'Password' , id : 'password-id' , labelName : 'Password' },
+
+]
 
 //components
 
@@ -17,7 +26,9 @@ export const commonFileComponents = {
         status: 'Status:',
         close : 'Close',
         save : 'Save',
-        addUser : 'Add User'
+        addUser : 'Add User',
+        selectGender : 'Select Gender',
+        selectStatus : 'Select Status'
     },
     optionGender : [
         {male : 'Male'},
@@ -43,7 +54,7 @@ export const commonFileComponents = {
             {heading : 'Name' , value : 'name' },
             {heading : 'Email' , value : 'email'},
             {heading : 'Gender' , value : 'gender'},
-            {heading: 'Status', value: 'status', type: 'dropdown', options: ['Active','Inactive'] },
+            {heading: 'Status', value: 'status',  },
             {heading : 'Delete' , type : 'icon' , iconType : 'material-symbols:delete-outline' , btnType : 'delete'},
     
         ]

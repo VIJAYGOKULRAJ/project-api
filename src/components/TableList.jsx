@@ -80,22 +80,7 @@ const TableRowContent = ({ item, column, index, setValueInParent }) => {
         Array.isArray(column) &&
         column.length > 0 &&
         column.map((colItem) => {
-          if (colItem.type === "dropdown") {
-            return (
-              <td key={colItem?.heading} className="text-center">
-                <select className="dropdown-btn" value={item?.value}>
-                  {colItem?.options &&
-                    Array.isArray(colItem.options) &&
-                    colItem.options.length > 0 &&
-                    colItem.options.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                </select>
-              </td>
-            );
-          } else if (colItem?.type === "icon") {
+         if (colItem?.type === "icon") {
             return (
               <td key={colItem?.heading} className="text-center">
                 <button

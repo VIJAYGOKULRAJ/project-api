@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Main } from "./Main";
-import { WelcomePage } from "./components/WelcomePage";
+import { WelcomePage } from "./pages/WelcomePage";
 
 export const Body = () => {
   return (

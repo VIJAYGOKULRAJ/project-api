@@ -102,9 +102,9 @@ const ModelPopup = (props) => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              {formik.touched.email && formik.errors.email ? (
+              {formik.touched.email && formik.errors.email && (
                 <div className="invalid-feedback">{formik.errors.email}</div>
-              ) : null}
+              ) }
             </div>
             <div className="mb-3">
               <label htmlFor="gender" className="form-label">
@@ -117,6 +117,7 @@ const ModelPopup = (props) => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               >
+                <option selected value="">{commonFileComponents?.modelPopup?.selectGender}</option>
                 {commonFileComponents?.optionGender?.map((item, index) => (
                   <option key={index} value={Object.keys(item)[0]}>
                     {Object.values(item)[0]}
@@ -135,6 +136,7 @@ const ModelPopup = (props) => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               >
+                 <option selected value="">{commonFileComponents?.modelPopup?.selectStatus}</option>
                 {commonFileComponents?.optionStatus?.map((item, index) => (
                   <option key={index} value={Object.keys(item)}>
                     {Object.values(item)}

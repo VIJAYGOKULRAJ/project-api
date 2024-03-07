@@ -1,6 +1,10 @@
 
+import axios from "axios";
 import  {baseUrl}  from "../GlobalFiles/Interceptor.jsx";
-console.log(baseUrl)
+
+const loginURL = process.env.REACT_APP_LOGINURL
+
+
 export const fetchData = async (id) => {
   try {
     const response = await baseUrl.get(
@@ -57,5 +61,20 @@ export const putAPI = async (id , editData) => {
     return res;
   }catch(error){
     console.log('error while eidt user' , error)
+  }
+}
+
+
+export const LoginApi = async (values) => {
+  try{
+	const login = await axios.post(`${loginURL}api/v1/login`, values, {
+		headers: {
+		  'Content-Type': 'application/json',
+		},
+	  });
+   return login
+  }
+  catch(err){
+    console.log(err , 'while Login the error');
   }
 }

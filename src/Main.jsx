@@ -24,7 +24,7 @@ export const Main = () => {
       status: "",
     },
   });
- 
+
   const [getById, setgetById] = useState({
     id: "",
     delete: "",
