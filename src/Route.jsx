@@ -17,6 +17,7 @@ export const Body = () => {
         <Route path="/" element={<WelcomePage setIsAuthenticated={setIsAuthenticated}/>}/>
         <Route path="/Account" element={<PrivateRoute isAuthenticated= {isAuthenticated}><Main/></PrivateRoute>} />
         <Route path='*' element={<Main/>} />
+        
       </Routes>
     </BrowserRouter>
   );
