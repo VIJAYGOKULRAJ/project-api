@@ -4,12 +4,12 @@ import TableList from "../components/TableList"
 
 
 
-const UsersForm = ({userData ,  handleDelete , handleGet }) => {
+const UsersForm = ({userData ,  handleDelete , handleGet  , setModalShow  }) => {
   
   
   return (
     <div>
-<TableList record={userData} column={commonFileComponents?.userForm?.column}  handleDelete={handleDelete} handleGet={handleGet}/>
+<TableList record={userData} column={commonFileComponents?.userForm?.column}  handleDelete={handleDelete} handleGet={handleGet}  setModalShow={setModalShow} />
     </div>
   )
 }
