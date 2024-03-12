@@ -4,12 +4,11 @@ import { inputFeilds, welcomePage } from '../Constant';
 import InputFeilds from '../components/inputFeild';
 import '../css/WelcomePage.css';
 import { useNavigate } from "react-router-dom";
-import { LoginApi } from '../Axios/ApiCall';
 import { useDispatch } from 'react-redux';
 import { LoginAction } from '../Redux/Action/LoginAction';
 
 
-export const WelcomePage = () => {
+export const WelcomePage = ({setIsAuthenticated}) => {
   const [values , setValues] = useState({
     email : '' , password : ''
   })
@@ -18,7 +17,8 @@ export const WelcomePage = () => {
   const handleClickLogin = async (e) => {
     e.preventDefault()
     const result = dispatch(LoginAction(values)).then((res) => {
-     res.status === 200 && navigate('/account')
+      setIsAuthenticated(true)
+      res.status === 200 && navigate('/account')
     })
   }
   return (
