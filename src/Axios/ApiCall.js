@@ -15,7 +15,7 @@ export const fetchData = async (id) => {
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error; 
-  }
+  } 
 };
 
 export const deleteApi = (getById) => {
