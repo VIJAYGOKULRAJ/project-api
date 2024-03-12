@@ -13,6 +13,7 @@ export const welcomePage = {
 export const inputFeilds = [
      { name : 'email', type : 'email' , placeholder : 'Email' , id : 'email-id' , labelName : 'Name' },
      { name : 'password', type : 'password' , placeholder : 'Password' , id : 'password-id' , labelName : 'Password' },
+     
 
 ]
 

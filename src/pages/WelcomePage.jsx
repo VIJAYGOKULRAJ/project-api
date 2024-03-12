@@ -5,6 +5,8 @@ import InputFeilds from '../components/inputFeild';
 import '../css/WelcomePage.css';
 import { useNavigate } from "react-router-dom";
 import { LoginApi } from '../Axios/ApiCall';
+import { useDispatch } from 'react-redux';
+import { LoginAction } from '../Redux/Action/LoginAction';
 
 
 export const WelcomePage = () => {
@@ -12,9 +14,12 @@ export const WelcomePage = () => {
     email : '' , password : ''
   })
   const navigate = useNavigate();
-  const handleClickLogin = async () => {
-const response = await LoginApi(values)
-response.status === 200 && navigate('/account')
+  const dispatch = useDispatch()
+  const handleClickLogin = async (e) => {
+    e.preventDefault()
+    const result = dispatch(LoginAction(values)).then((res) => {
+     res.status === 200 && navigate('/account')
+    })
   }
   return (
    <div className='welcomePage'>
