@@ -8,7 +8,8 @@ import { useState } from "react";
 
 
 export const Body = () => {
-  const data = useSelector((state) => state.LoginStore.LoginModel)
+  const data = useSelector((state) => state.GetUsers.GetUsers)
+  console.log(data, "userssssss");
   const [isAuthenticated , setIsAuthenticated] = useState(false)
 
   return (
@@ -17,7 +18,7 @@ export const Body = () => {
         <Route path="/" element={<WelcomePage setIsAuthenticated={setIsAuthenticated}/>}/>
         <Route path="/Account" element={<PrivateRoute isAuthenticated= {isAuthenticated}><Main/></PrivateRoute>} />
         <Route path='*' element={<Main/>} />
-        
+
       </Routes>
     </BrowserRouter>
   );
