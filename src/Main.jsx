@@ -12,8 +12,11 @@ import { userContext } from "./ContextFile/Context";
 import "react-toastify/dist/ReactToastify.css";
 import swal from "sweetalert";
 import showToast from "./components/Tositify";
+import { useDispatch } from "react-redux";
+import { getAllUser } from "./Redux/Action/APIAction";
 
 export const Main = () => {
+  const dispatch = useDispatch()
   const [userData, setUserData] = useState({
     allUser: [],
     users: [],
@@ -35,6 +38,9 @@ export const Main = () => {
   const fetchUserData = async () => {
     try {
       const userData = await fetchData(showById);
+      const res = dispatch(getAllUser(showById)).then((res) => {
+        console.log(res , "response");
+      })
       setUserData((prevData) => ({ ...prevData, users: userData }));
       if (!showById)
         setUserData((prevData) => ({ ...prevData, allUser: userData }));
